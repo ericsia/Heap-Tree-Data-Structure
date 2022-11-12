@@ -14,7 +14,7 @@ public class HeapTree
     {
         private int       priority;
         private Object    value;
-        private HeapEntry parent;        // to prevent the need to recursive (bad time complexity) from head to search
+        private HeapEntry parent;      // to prevent the need to recursive (bad time complexity) from head to search
         private HeapEntry left, right; // branch
 
         public HeapEntry(HeapEntry inParent, int inPriority, Object inValue)
@@ -79,7 +79,7 @@ public class HeapTree
                 tailQueue.add(0, tail); // the tail candidate for next time add()
             }
 
-            tail = parent;                // update this class new tail for next time add()
+            tail = parent;              // update this class new tail for next time add()
         }
     }
 
