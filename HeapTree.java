@@ -74,16 +74,14 @@ public class HeapTree
 
 		public void updateTail() // for during remove()
 		{
-			if (parent.right == this) // if this node is right branch, add the old tail to tailQueue to be candidate
+			if (parent.right == this)   // if this node is right branch, add the old tail to tailQueue to be candidate
 			{
 				tailQueue.add(0, tail); // the tail candidate for next time add()
 			}
 
-			tail = parent;				     // update this class new tail for next time add()
+			tail = parent;			    // update this class new tail for next time add()
 		}
 	}
-
-	public static final int MAX_SIZE = 10;
 
 	private HeapEntry head;  // the root as an indicator during remove()
 	private HeapEntry tail;  // we always add new node to tail
@@ -99,7 +97,7 @@ public class HeapTree
 
 		if (inSize < 1)
 		{
-			throw new IllegalArgumentException("the size of heap cannot be less than 1");
+			throw new IllegalArgumentException("the size limit of this heap cannot be less than 1");
 		}
 		size = inSize; // if there is IllegalArgumentException, it won't reach here
 	}
@@ -109,8 +107,7 @@ public class HeapTree
 		if (count == 0) // if our entire Heap tree is empty
 		{
 			HeapEntry newChild = new HeapEntry(null, priority, value);
-			head  = newChild;
-			tail  = newChild;
+			head  = tail = newChild;
 			count = 1;
 		}
 		else if (count < size)
@@ -124,7 +121,22 @@ public class HeapTree
 		}
 	}
 
-	public Object remove() // when we remove we return removed value
+	private void trickleUp(HeapEntry currentNode) // recursive
+	{
+		HeapEntry parentNode = currentNode.parent;
+
+		if (currentNode != head) // if not at the root yet
+		{
+			if (currentNode.getPriority() > parentNode.getPriority())
+			{
+				// child swap position with parent
+				parentNode.swapContentWithChild(currentNode);
+				trickleUp(parentNode); // call recursively
+			}
+		}
+	}
+
+	public Object remove() // when we remove we return the removed value
 	{
 		Object retValue = null;
 
@@ -140,7 +152,7 @@ public class HeapTree
 			HeapEntry lastNode = tailQueue.removeLast();
 			head.swapContentWithChild(lastNode); // this is how heap work, last element swap with head
 			lastNode.updateTail();               // we need to add tail to tailQueue for next time add() if this is right branch
-			lastNode.askParentSetThisNodeNull(); // we must ask the parent set this child(self) reference to null for nest time add()
+			lastNode.askParentSetThisNodeNull(); // we must ask the parent set this child(self) reference to null for next time add()
 			count--;
 			trickleDown(head); // perform a trickle down
 		}
@@ -154,12 +166,12 @@ public class HeapTree
 		HeapEntry rightChild = currentNode.right;
 		HeapEntry largerChild;
 
-		if (leftChild != null) // if currentNodeIndex have child
+		if (leftChild != null) // if currentNode have child
 		{
 			largerChild = leftChild; // initialise
-			if (rightChild != null) // if we got right child
+			if (rightChild != null)  // if we got right child
 			{
-				// see if the right child is larger and update largerChildIndex
+				// see if the right child is larger and update largerChild
 				if (leftChild.getPriority() < rightChild.getPriority())
 				{
 					largerChild = rightChild;
@@ -168,27 +180,11 @@ public class HeapTree
 
 			if (largerChild.getPriority() > currentNode.getPriority())
 			{
-				// swap largerChild with currentNodeIndex
+				// swap largerChild with currentNode
 				currentNode.swapContentWithChild(largerChild);
 				trickleDown(largerChild);
 			}
 		}
-	}
-
-	private void trickleUp(HeapEntry currentNode) // recursive
-	{
-		HeapEntry parentNode = currentNode.parent;
-
-		if (currentNode != head) // if we not at the root
-		{
-			if (currentNode.getPriority() > parentNode.getPriority())
-			{
-				// child swap position with parent
-				parentNode.swapContentWithChild(currentNode);
-				trickleUp(parentNode); // call recursively
-			}
-		}
-
 	}
 
 	@Override
