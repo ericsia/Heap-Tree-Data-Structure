@@ -1,10 +1,9 @@
 /*
-	File        : HeapTreeTest.java
+	File        : HeapTest.java
 	Author      : Eric Sia
 	Design Date : 08 Nov 2022
 	Test Date   : 11 Nov 2022
-	Purpose     : this HeapEntry will purely use Self-referential Object
-	              to achieve heap effect with O(1) complexity when finding new tail during adding and removing
+	Purpose     : a simple test to showcase HeapTree.java
 */
 
 public class HeapTest
