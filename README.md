@@ -5,7 +5,7 @@ Heap is always OlogN complexity when adding and removing.
 ![heap screenshot](design.png)
 
 To compile:
-javac HeapTest.java
+`javac HeapTest.java`
 
 To run
-java HeapTest
+`java HeapTest`
