@@ -3,3 +3,9 @@ Using purely Java object writing a poc Heap algorithm without using an array wit
 Heap is always OlogN complexity when adding and removing.
 
 ![heap screenshot](design.png)
+
+To compile:
+javac HeapTest.java
+
+To run
+java HeapTest
